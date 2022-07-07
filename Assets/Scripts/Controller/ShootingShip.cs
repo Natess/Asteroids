@@ -7,17 +7,22 @@ namespace Asteroids
         private readonly GameObject _bullet;
         public float Force {get; protected set;}
 
-        public ShootingShip(GameObject bullet, float force)
+        private IViewServices _viewServices;
+
+        public ShootingShip(GameObject bullet, float force, IViewServices viewServices)
         {
             _bullet = bullet;
             Force = force;
+            _viewServices = viewServices;
         }
 
         public void Fire(Transform barrel)
         {
-            var temAmmunition = Object.Instantiate(_bullet, barrel.position, barrel.rotation);
-            temAmmunition.GetComponent<Rigidbody2D>().AddForce(barrel.up * Force);
-            Object.Destroy(temAmmunition, 10);
+            var temAmmunition = _viewServices.Instantiate(_bullet);
+            temAmmunition.transform.position = barrel.position;
+            temAmmunition.GetComponent<Rigidbody2D>().AddForce(barrel.up * Force, ForceMode2D.Impulse);
+
+            TimerHelper.ExecuteAfterTimeAsync(2, () => _viewServices.Destroy(_bullet));
         }
     }
 }

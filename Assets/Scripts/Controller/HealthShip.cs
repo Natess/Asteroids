@@ -16,13 +16,10 @@ namespace Asteroids
 
         public void Damage()
         {
+            Health--;
             if (Health <= 0)
             {
                 UnityEngine.Object.Destroy(_gameObject);
-            }
-            else
-            {
-                Health--;
             }
         }
     }

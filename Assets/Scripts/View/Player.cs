@@ -18,15 +18,18 @@ namespace Asteroids
         private PlayerMovement _playerMovement;
         private PlayerWeapon _playerWeapon;
         private PlayerHealth _playerHealth;
+        private IViewServices _playerViewServices;
 
         private void Start()
         {
             _camera = Camera.main;
+            _playerViewServices = ViewServicesFactory.Instance();
+
             var move = new MovePhysics(gameObject.GetComponent<Rigidbody2D>(), _speed);
             var rotation = new RotationShip(transform);
             _playerMovement = new PlayerMovement(move, rotation);
 
-            var shooting = new ShootingShip(_bullet, _force);
+            var shooting = new ShootingShip(_bullet, _force, _playerViewServices);
             _playerWeapon = new PlayerWeapon(shooting);
 
             var health = new HealthShip(gameObject, _hp);
@@ -66,7 +69,8 @@ namespace Asteroids
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            _playerHealth.Damage();
+            if (!collision.gameObject.CompareTag("PlayerBullet"))
+                _playerHealth.Damage();
         }
     }
 }
