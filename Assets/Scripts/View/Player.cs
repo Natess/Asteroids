@@ -14,59 +14,50 @@ namespace Asteroids
         [SerializeField] private Transform _barrel;
         [SerializeField] private float _force;
 
-        private Camera _camera;
         private PlayerMovement _playerMovement;
         private PlayerWeapon _playerWeapon;
         private PlayerHealth _playerHealth;
+        private IViewServices _playerViewServices;
 
         private void Start()
         {
-            _camera = Camera.main;
+            _playerViewServices = ViewServicesFactory.Instance();
+
             var move = new MovePhysics(gameObject.GetComponent<Rigidbody2D>(), _speed);
             var rotation = new RotationShip(transform);
             _playerMovement = new PlayerMovement(move, rotation);
 
-            var shooting = new ShootingShip(_bullet, _force);
+            var shooting = new ShootingShip(_bullet, _force, _playerViewServices);
             _playerWeapon = new PlayerWeapon(shooting);
 
             var health = new HealthShip(gameObject, _hp);
             _playerHealth = new PlayerHealth(health);
         }
 
-        private void FixedUpdate()
-        {
-            Move();
-            Fire();
-        }
+        public void Fire() =>
+            _playerWeapon.Fire(_barrel);
 
-        private void Fire()
-        {
-            if (Input.GetButton("Fire1"))
-            {
-                _playerWeapon.Fire(_barrel);
-            }
-        }
+        public void Move(float horizontal, float vertical) =>
+            _playerMovement.Move(horizontal, vertical, Time.deltaTime);
 
-        private void Move()
-        {
-            var direction = Input.mousePosition - _camera.WorldToScreenPoint(transform.position);
+        internal void Rotation(Vector3 direction) =>
             _playerMovement.Rotation(direction);
 
-            _playerMovement.Move(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), Time.deltaTime);
+        internal void AddAcceleration() =>
+            _playerMovement.AddAcceleration();
 
-            if (Input.GetKeyDown(KeyCode.LeftShift))
-            {
-                _playerMovement.AddAcceleration();
-            }
-            if (Input.GetKeyUp(KeyCode.LeftShift))
-            {
-                _playerMovement.RemoveAcceleration();
-            }
-        }
+        internal void RemoveAcceleration() =>
+            _playerMovement.RemoveAcceleration();
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            _playerHealth.Damage();
+            if (!collision.gameObject.CompareTag("PlayerBullet"))
+                _playerHealth.Damage();
+        }
+
+        private void OnDestroy()
+        {
+            UnityEditor.EditorApplication.isPlaying = false;
         }
     }
 }
