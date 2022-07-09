@@ -22,24 +22,25 @@ namespace Asteroids
             if (_isTimeCreateUfo)
             {
                 _isTimeCreateUfo = false;
-                var position = GetRandomPosition();
+                var position = GetRandomPositionBetweenTwoRectangle();
                 _factory.Create(EnemyTypes.UFO, new Health(_parameters.UFOHealth, _parameters.UFOHealth), position);
-                TimerHelper.ExecuteAfterTimeAsync(_parameters.UfoTimePeriod, () => _isTimeCreateUfo = true);
+                TimerHelper.ExecuteAfterTimeAsync(_parameters.UfoTimeSpanPeriod, () => _isTimeCreateUfo = true);
             }
 
             if (_isTimeCreateAsteriod)
             {
                 _isTimeCreateAsteriod = false;
-                var position = GetRandomPosition();
+                var position = GetRandomPositionBetweenTwoRectangle();
                 _factory.Create((EnemyTypes)Random.Range(1, 2), new Health(_parameters.AsteroidHealth, _parameters.AsteroidHealth), position);
-                TimerHelper.ExecuteAfterTimeAsync(_parameters.AsteroidTimePeriod, () => _isTimeCreateAsteriod = true);
+                TimerHelper.ExecuteAfterTimeAsync(_parameters.AsteroidTimeSpanPeriod, () => _isTimeCreateAsteriod = true);
             }
         }
 
-        private Vector3 GetRandomPosition()
+        private Vector3 GetRandomPositionBetweenTwoRectangle()
         {
             var x = Random.Range(_parameters.CaptureDistanceMinX, _parameters.CaptureDistanceMaxX);
             x = Random.Range(-2, 2) >= 0 ? x : -x;
+
             float y;
             if(Mathf.Abs(x) > _parameters.CaptureDistanceMinX)
                 y = Random.Range(-_parameters.CaptureDistanceMaxY, _parameters.CaptureDistanceMaxY);

@@ -11,11 +11,11 @@ namespace Asteroids
         /// <summary>
         /// Период создания НЛО
         /// </summary>
-        public float UfoTimePeriod { get; set; }
+        public float UfoTimeSpanPeriod { get; set; }
         /// <summary>
         /// Период создания астероидов
         /// </summary>
-        public float AsteroidTimePeriod { get; set; }
+        public float AsteroidTimeSpanPeriod { get; set; }
         /// <summary>
         /// Сторона внутреннего прямоугольника для спауна
         /// </summary>

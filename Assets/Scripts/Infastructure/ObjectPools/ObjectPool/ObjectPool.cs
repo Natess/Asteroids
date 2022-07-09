@@ -14,6 +14,7 @@ namespace Asteroids
         {
             _prefab = prefab;
             _root = new GameObject($"[{prefab.name}]");
+            _root.transform.position = Vector3.zero;
         }
 
         public GameObject Pop()
@@ -37,8 +38,7 @@ namespace Asteroids
         public void Push(GameObject gameObject)
         {
             _stack.Push(gameObject);
-            //Это строка вызывает ошибку
-            //gameObject.transform.SetParent(_root.transform);
+            gameObject.transform.SetParent(_root.transform);
             gameObject.SetActive(false);
         }
 

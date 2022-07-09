@@ -266,6 +266,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &422149296 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1546179121, guid: 7a45414f8071219479f3179bddd0cb41, type: 3}
+  m_PrefabInstance: {fileID: 204778396}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c0ecf9bbcb19634bb7c68285029ffaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -378,6 +389,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17d816185cbd1e64b8baef1517faf031, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerGameObject: {fileID: 422149296}
+  _asteroidTimeSpanPeriod: 4
+  _ufoTimeSpanPeriod: 7
+  "_\u0441aptureDistanceMaxX": 10
+  "_\u0441aptureDistanceMinX": 9
+  "_\u0441aptureDistanceMaxY": 6
+  "_\u0441aptureDistanceMinY": 5
+  _ufoHealth: 2
+  _asteroidHealth: 1
 --- !u!4 &875097039
 Transform:
   m_ObjectHideFlags: 0

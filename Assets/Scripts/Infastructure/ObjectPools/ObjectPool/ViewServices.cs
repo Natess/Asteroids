@@ -29,15 +29,5 @@ namespace Asteroids
         {
             _viewCache[gameObject.name].Push(gameObject);
         }
-
-        public GameObject Instantiate(GameObject prefab)
-        {
-            if (!_viewCache.TryGetValue(prefab.name, out ObjectPool viewPool))
-            {
-                viewPool = new ObjectPool(prefab);
-                _viewCache[prefab.name] = viewPool;
-            }
-            return viewPool.Pop();
-        }
     }
 }

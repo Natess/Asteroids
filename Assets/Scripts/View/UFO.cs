@@ -10,37 +10,26 @@ namespace Asteroids
         [SerializeField] private float _fireTimerPeriod = 1;
         [SerializeField] private float _ufoSpeed = 5;
 
-        private IShooting _ufoWeapon;
+        private UfoShootingController _shootinController;
 
         private void Awake()
         {
             var move = new MovePhysics(gameObject.GetComponent<Rigidbody2D>(), _ufoSpeed);
-            _movement = new RandomEnemyMovement(move, transform);
+            _movement = new EnemyMovementToCentreWithOffset(move, transform);
 
-            StartMove();
-            Object.Destroy(gameObject, 20);
+            _movement.StartMove();
+            Object.Destroy(gameObject, _lifeTime);
         }
 
         internal void DependencyInjectViewServices(IViewServices viewServices)
         {
             var shooting = new ShootingShip(_bullet, _force, viewServices);
-            _ufoWeapon = new EnemyWeapon(shooting);
+            _shootinController = new UfoShootingController(shooting, _barrel, _fireTimerPeriod);
         }
 
-        public void StartMove()
-        {
-            _movement.StartMove();
-        }
-
-        float _fireTimer = 0;
         private void Update()
         {
-            _fireTimer -= Time.deltaTime;
-            if (_fireTimer < 0)
-            {
-                _ufoWeapon.Fire(_barrel);
-                _fireTimer = _fireTimerPeriod;
-            }
+            _shootinController.Update();
         }
 
         private void OnCollisionEnter2D(Collision2D collision)

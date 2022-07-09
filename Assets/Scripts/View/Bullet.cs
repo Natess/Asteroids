@@ -6,10 +6,39 @@ namespace Asteroids
 {
     public class Bullet : MonoBehaviour
     {
+        [SerializeField]private float _lifeTime;
+
+        private float _timer;
+        private IViewServices _viewService;
+
+        private void Awake()
+        {
+            _timer = _lifeTime;
+            _viewService = ViewServicesFactory.Instance();
+        }
+
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (!collision.gameObject.CompareTag("PlayerBullet") && !collision.gameObject.CompareTag("Player"))
-                ViewServicesFactory.Instance().Destroy(gameObject);
+                Destroy();
+        }
+
+        private void Update()
+        {
+            _timer -= Time.deltaTime;
+            if (_timer <= 0)
+            {
+                Destroy();
+            }
+        }
+
+        private void Destroy()
+        {
+            if (gameObject.activeSelf)
+            {
+                _viewService.Destroy(gameObject);
+                _timer = _lifeTime;
+            }
         }
     }
 }

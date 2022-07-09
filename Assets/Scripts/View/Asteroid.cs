@@ -10,15 +10,10 @@ namespace Asteroids
         private void Awake()
         {
             var move = new MovePhysics(gameObject.GetComponent<Rigidbody2D>(), _asteroidSpeed);
-            _movement = new RandomEnemyMovement(move, transform);
+            _movement = new EnemyMovementToCentreWithOffset(move, transform);
 
-            StartMove();
-            Object.Destroy(gameObject, 20);
-        }
-
-        public void StartMove()
-        {
             _movement.StartMove();
+            Object.Destroy(gameObject, _lifeTime);
         }
 
         private void OnCollisionEnter2D(Collision2D collision)

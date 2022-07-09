@@ -4,13 +4,16 @@ namespace Asteroids
 {
     public abstract class Enemy : MonoBehaviour
     {
-        // Фабрика
-        public static IEnemyFactory Factory;
-
+        [SerializeField] protected float _lifeTime = 20;
+      
         protected IEnemyMovement _movement;
         protected IEnemyHealth _health;
 
-        // Фабричный метод 
+      
+        // Фабрика
+        public static IEnemyFactory Factory;
+
+        // Фабричный метод (для примера)
         public static Asteroid CreateAsteroidEnemy(Health hp)
         {
             var enemy = Instantiate(Resources.Load<Asteroid>("Enemy/Asteroid1"));

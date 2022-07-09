@@ -4,10 +4,10 @@ namespace Asteroids
 {
     internal class ShootingShip : IShooting
     {
-        private readonly GameObject _bullet;
+        protected readonly GameObject _bullet;
         public float Force {get; protected set;}
 
-        private IViewServices _viewServices;
+        protected IViewServices _viewServices;
 
         public ShootingShip(GameObject bullet, float force, IViewServices viewServices)
         {
@@ -16,13 +16,11 @@ namespace Asteroids
             _viewServices = viewServices;
         }
 
-        public void Fire(Transform barrel)
+        public virtual void Fire(Transform barrel)
         {
-            var temAmmunition = _viewServices.Instantiate(_bullet);
+            var temAmmunition = _viewServices.Instantiate<Rigidbody2D>(_bullet);
             temAmmunition.transform.position = barrel.position;
-            temAmmunition.GetComponent<Rigidbody2D>().AddForce(barrel.up * Force, ForceMode2D.Impulse);
-
-            TimerHelper.ExecuteAfterTimeAsync(2, () => _viewServices.Destroy(_bullet));
+            temAmmunition.AddForce(barrel.up * Force, ForceMode2D.Impulse);
         }
     }
 }

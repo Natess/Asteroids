@@ -5,9 +5,25 @@ namespace Asteroids
 {
     public class GameStarter : MonoBehaviour
     {
-        private List<IExecute> _interactiveObjects = new List<IExecute>();
+        [SerializeField] private Player _playerGameObject;
+
+        // Настройки игры
+        [SerializeField] private float _asteroidTimeSpanPeriod = 4;
+        [SerializeField] private float _ufoTimeSpanPeriod = 7;
+        [SerializeField] private float _сaptureDistanceMaxX = 10;
+        [SerializeField] private float _сaptureDistanceMinX = 9;
+        [SerializeField] private float _сaptureDistanceMaxY = 6;
+        [SerializeField] private float _сaptureDistanceMinY = 5;
+        [SerializeField] private int _ufoHealth = 2;
+        [SerializeField] private int _asteroidHealth = 1;
+
+        private List<IExecute> _updateObjects = new List<IExecute>();
+        private List<IFixedExecute> _fixedUpdateObjects = new List<IFixedExecute>();
+
+        private PlayerInputController _inputController;
         private SimpleEnemiesSpauner _enemiesSpauner;
 
+        // Для примера использования фабричного метода и фабрики
         private void Start()
         {
             //Enemy.CreateAsteroidEnemy(new Health(100.0f, 100.0f));
@@ -21,28 +37,42 @@ namespace Asteroids
         
         private void Awake()
         {
+            _inputController = new PlayerInputController(_playerGameObject, Camera.main);
+            _fixedUpdateObjects.Add(_inputController);
+
             _enemiesSpauner = new SimpleEnemiesSpauner(new EnemyFactory(), new SimpleEnemiesSpaunerParameters()
             {
-                AsteroidTimePeriod = 4,
-                UfoTimePeriod = 7,
-                CaptureDistanceMaxX = 10,
-                CaptureDistanceMinX = 9,
-                CaptureDistanceMaxY = 6,
-                CaptureDistanceMinY = 5,
-                UFOHealth = 2,
-                AsteroidHealth = 1
+                AsteroidTimeSpanPeriod = _asteroidTimeSpanPeriod,
+                UfoTimeSpanPeriod = _ufoTimeSpanPeriod,
+                CaptureDistanceMaxX = _сaptureDistanceMaxX,
+                CaptureDistanceMinX = _сaptureDistanceMinX,
+                CaptureDistanceMaxY = _сaptureDistanceMaxY,
+                CaptureDistanceMinY = _сaptureDistanceMinY,
+                UFOHealth = _ufoHealth,
+                AsteroidHealth = _asteroidHealth
             });
-            _interactiveObjects.Add(_enemiesSpauner);
+            _updateObjects.Add(_enemiesSpauner);
         }
 
         void Update()
         {
-            foreach (IExecute item in _interactiveObjects)
+            foreach (IExecute item in _updateObjects)
             {
                 if (item == null)
                     continue;
 
                 item.Update();
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            foreach (IFixedExecute item in _fixedUpdateObjects)
+            {
+                if (item == null)
+                    continue;
+
+                item.FixedUpdate();
             }
         }
     }
