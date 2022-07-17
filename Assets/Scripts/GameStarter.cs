@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Asteroids
@@ -23,20 +24,9 @@ namespace Asteroids
         private PlayerInputController _inputController;
         private SimpleEnemiesSpauner _enemiesSpauner;
 
-        // Для примера использования фабричного метода и фабрики
-        private void Start()
-        {
-            //Enemy.CreateAsteroidEnemy(new Health(100.0f, 100.0f));
-
-            //IEnemyFactory factory = new EnemyFactory();
-            //factory.Create(EnemyTypes.Asteroid2, new Health(100.0f, 100.0f));
-
-            //Enemy.Factory = factory;
-            //Enemy.Factory.Create(EnemyTypes.UFO, new Health(100.0f, 100.0f));
-        }
-        
         private void Awake()
         {
+            ServiceLocatorInit();
             _inputController = new PlayerInputController(_playerGameObject, Camera.main);
             _fixedUpdateObjects.Add(_inputController);
 
@@ -52,6 +42,11 @@ namespace Asteroids
                 AsteroidHealth = _asteroidHealth
             });
             _updateObjects.Add(_enemiesSpauner);
+        }
+
+        private void ServiceLocatorInit()
+        {
+            ServiceLocator.SetService<IViewServices>(new ViewServices());
         }
 
         void Update()

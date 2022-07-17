@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace Asteroids
 {
+    [System.Serializable]
     public abstract class Enemy : MonoBehaviour
     {
         [SerializeField] protected float _lifeTime = 20;

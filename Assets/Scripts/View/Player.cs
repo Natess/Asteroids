@@ -21,7 +21,7 @@ namespace Asteroids
 
         private void Start()
         {
-            _playerViewServices = ViewServicesFactory.Instance();
+            _playerViewServices = ServiceLocator.Resolve<IViewServices>();//ViewServicesFactory.Instance();
 
             var move = new MovePhysics(gameObject.GetComponent<Rigidbody2D>(), _speed);
             var rotation = new RotationShip(transform);
