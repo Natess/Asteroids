@@ -14,8 +14,8 @@ namespace Asteroids
         public Enemy Create(EnemyTypes enemyType, Health hp, Vector3 position)
         {
             Enemy enemy;
-                    if (hp == null)
-                        throw new System.ArgumentException("Не передано здоровье");
+            if (hp == null)
+                throw new System.ArgumentException("Не передано здоровье");
             switch (enemyType)
             {
                 case EnemyTypes.Asteroid1:
@@ -28,8 +28,7 @@ namespace Asteroids
                     enemy2.DependencyInjectHealth(hp.DeepCopy());
                     break;
                 case EnemyTypes.UFO:
-                    var ufo = Object.Instantiate(Resources.Load<UFO>("Enemy/UFO"), position, Quaternion.identity);
-                    // Демонстрация работы ServiceLocator
+                    var ufo = Object.Instantiate(Resources.Load<UFO>("Enemy/UFO"), position, Quaternion.identity); 
                     ufo.DependencyInjectGameBuilder(new GameObjectBuilder());//ViewServicesFactory.Instance());
                     enemy = ufo;
                     break;

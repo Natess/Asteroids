@@ -1,0 +1,1 @@
+{"UfoTimeSpanPeriod":7.0,"AsteroidTimeSpanPeriod":4.0,"CaptureDistanceMinX":9.0,"CaptureDistanceMaxX":10.0,"CaptureDistanceMinY":5.0,"CaptureDistanceMaxY":6.0,"AsteroidHealth":1,"UFOHealth":2}
