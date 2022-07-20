@@ -2,7 +2,7 @@
 
 namespace Asteroids
 {
-    internal class PlayerInputController : IFixedExecute
+    internal class PlayerInputController : IExecute, IFixedExecute
     {
         private readonly Player _player;
         private readonly Camera _camera;
@@ -12,9 +12,8 @@ namespace Asteroids
             _player = player;
             _camera = camera;
         }
-
         public void FixedUpdate()
-        { 
+        {
             _player.Move(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
             var direction = Input.mousePosition - _camera.WorldToScreenPoint(_player.transform.position);
@@ -32,6 +31,19 @@ namespace Asteroids
             if (Input.GetButton("Fire1"))
             {
                 _player.Fire();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                _player.UnlockWeapon();
+            }
+        }
+
+        public void Update()
+        { 
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                _player.UnlockWeapon();
             }
         }
     }
