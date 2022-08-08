@@ -23,6 +23,14 @@ namespace Asteroids
             Object.Destroy(gameObject, _lifeTime);
         }
 
+        internal void DependencyInjectBehaviour(IEnemyMovement movement, IShooting shooting)
+        {
+            _movement = movement;
+            _movement.StartMove();
+
+            _shootinController = new UfoShootingController(shooting, _barrel, _fireTimerPeriod);
+        }
+
         //internal void DependencyInjectViewServices(IViewServices viewServices)
         //{
         //    var shooting = new UFOShootingShip(_bullet, _force, viewServices);
