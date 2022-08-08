@@ -31,7 +31,7 @@ namespace Asteroids
             {
                 _isTimeCreateAsteriod = false;
                 var position = GetRandomPositionBetweenTwoRectangle();
-                _factory.Create((EnemyTypes)Random.Range(1, 2), new Health(_parameters.AsteroidHealth, _parameters.AsteroidHealth), position);
+                _factory.Create((EnemyTypes)Random.Range(1, 3), new Health(_parameters.AsteroidHealth, _parameters.AsteroidHealth), position);
                 TimerHelper.ExecuteAfterTimeAsync(_parameters.AsteroidTimeSpanPeriod, () => _isTimeCreateAsteriod = true);
             }
         }

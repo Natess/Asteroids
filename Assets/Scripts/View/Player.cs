@@ -15,23 +15,28 @@ namespace Asteroids
         [SerializeField] private float _force;
 
         private PlayerMovement _playerMovement;
-        private PlayerWeapon _playerWeapon;
+        private PlayerWeaponProxy _playerWeapon;
         private PlayerHealth _playerHealth;
         private IViewServices _playerViewServices;
 
         private void Start()
         {
-            _playerViewServices = ViewServicesFactory.Instance();
+            _playerViewServices = ServiceLocator.Resolve<IViewServices>();//ViewServicesFactory.Instance();
 
             var move = new MovePhysics(gameObject.GetComponent<Rigidbody2D>(), _speed);
             var rotation = new RotationShip(transform);
             _playerMovement = new PlayerMovement(move, rotation);
 
             var shooting = new ShootingShip(_bullet, _force, _playerViewServices);
-            _playerWeapon = new PlayerWeapon(shooting);
+            _playerWeapon = new PlayerWeaponProxy(shooting, new UnlockWeapon(false));
 
             var health = new HealthShip(gameObject, _hp);
             _playerHealth = new PlayerHealth(health);
+        }
+
+        internal void UnlockWeapon()
+        {
+            _playerWeapon.SwitchWeapon();
         }
 
         public void Fire() =>

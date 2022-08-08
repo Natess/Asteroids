@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Asteroids
 {
+    [System.Serializable]
     public sealed class Health
     {
         public float Max { get; }

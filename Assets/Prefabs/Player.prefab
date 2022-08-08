@@ -185,7 +185,7 @@ MonoBehaviour:
   _hp: 10
   _bullet: {fileID: 7188580833422976824, guid: 57d16de38620886499094bd4e7028640, type: 3}
   _barrel: {fileID: 3658603975218198793}
-  _force: 200
+  _force: 0.1
 --- !u!70 &6817448603559152603
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

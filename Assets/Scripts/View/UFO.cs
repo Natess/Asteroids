@@ -2,9 +2,11 @@
 
 namespace Asteroids
 {
+    [System.Serializable]
     internal class UFO: Enemy
     {
         [SerializeField] private GameObject _bullet;
+        [SerializeField] private Sprite _bulletSprite;
         [SerializeField] private Transform _barrel;
         [SerializeField] private float _force;
         [SerializeField] private float _fireTimerPeriod = 1;
@@ -21,9 +23,23 @@ namespace Asteroids
             Object.Destroy(gameObject, _lifeTime);
         }
 
-        internal void DependencyInjectViewServices(IViewServices viewServices)
+        internal void DependencyInjectBehaviour(IEnemyMovement movement, IShooting shooting)
         {
-            var shooting = new ShootingShip(_bullet, _force, viewServices);
+            _movement = movement;
+            _movement.StartMove();
+
+            _shootinController = new UfoShootingController(shooting, _barrel, _fireTimerPeriod);
+        }
+
+        //internal void DependencyInjectViewServices(IViewServices viewServices)
+        //{
+        //    var shooting = new UFOShootingShip(_bullet, _force, viewServices);
+        //    _shootinController = new UfoShootingController(shooting, _barrel, _fireTimerPeriod);
+        //}
+
+        internal void DependencyInjectGameBuilder(GameObjectBuilder objectBuilder)
+        {
+            var shooting = new UFOShootingShip(_force, _bulletSprite, objectBuilder);
             _shootinController = new UfoShootingController(shooting, _barrel, _fireTimerPeriod);
         }
 

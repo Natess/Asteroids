@@ -14,7 +14,7 @@ namespace Asteroids
         private void Awake()
         {
             _timer = _lifeTime;
-            _viewService = ViewServicesFactory.Instance();
+            _viewService = ServiceLocator.Resolve<IViewServices>();//ViewServicesFactory.Instance();
         }
 
         private void OnCollisionEnter2D(Collision2D collision)

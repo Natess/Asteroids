@@ -180,9 +180,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a801d279f3c9604e80b9514138bfdf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _lifeTime: 20
   _bullet: {fileID: 6408134278122183093, guid: bcd4becb2440a5440b8ef91794e3557a, type: 3}
+  _bulletSprite: {fileID: 21300000, guid: 758d9a39eb6cc5443a5665d3a1cc2761, type: 3}
   _barrel: {fileID: 7700297556938400631}
-  _force: 10
+  _force: 5
   _fireTimerPeriod: 0.5
   _ufoSpeed: 100
 --- !u!58 &312186289076275251

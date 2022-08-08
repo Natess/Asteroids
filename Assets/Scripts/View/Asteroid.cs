@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Asteroids
 {
+    [System.Serializable]
     public class Asteroid : Enemy
     {
         [SerializeField] private float _asteroidSpeed = 5;
