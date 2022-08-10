@@ -9,8 +9,8 @@ namespace Asteroids
       
         protected IEnemyMovement _movement;
         protected IEnemyHealth _health;
+        protected CounterPointController _counterUIController;
 
-      
         // Фабрика
         public static IEnemyFactory Factory;
 
@@ -26,6 +26,14 @@ namespace Asteroids
         public void DependencyInjectHealth(Health hp)
         {
             _health = new EnemyHealth(hp, gameObject);
+        }
+
+        protected virtual void CheckDead()
+        {
+            if (_health.HP.Current <= 0)
+            {
+                _counterUIController.CountDeadEnemy(this.GetType());
+            }
         }
 
     }

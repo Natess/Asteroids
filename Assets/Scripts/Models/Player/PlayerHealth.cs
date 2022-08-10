@@ -16,6 +16,11 @@ namespace Asteroids
             _healthImplementation = healthImplementation;
         }
 
+        public void AddHealth(int health)
+        {
+            _healthImplementation.AddHealth(health);
+        }
+
         public void Damage()
         {
             _healthImplementation.Damage();

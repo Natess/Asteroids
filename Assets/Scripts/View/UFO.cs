@@ -18,6 +18,7 @@ namespace Asteroids
         {
             var move = new MovePhysics(gameObject.GetComponent<Rigidbody2D>(), _ufoSpeed);
             _movement = new EnemyMovementToCentreWithOffset(move, transform);
+            _counterUIController = ControllerStaticFactory.GetCounterPointController();
 
             _movement.StartMove();
             Object.Destroy(gameObject, _lifeTime);
@@ -29,6 +30,8 @@ namespace Asteroids
             _movement.StartMove();
 
             _shootinController = new UfoShootingController(shooting, _barrel, _fireTimerPeriod);
+            if(_counterUIController == null)
+                _counterUIController = ControllerStaticFactory.GetCounterPointController();
         }
 
         //internal void DependencyInjectViewServices(IViewServices viewServices)
@@ -51,7 +54,10 @@ namespace Asteroids
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.gameObject.CompareTag("PlayerBullet"))
+            {
                 _health.Damage();
+                CheckDead();
+            }
         }
     }
 }

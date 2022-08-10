@@ -12,7 +12,7 @@ namespace Asteroids
         private readonly IMove _moveImplementation;
         private readonly IRotation _rotationImplementation;
 
-        public float Speed => _moveImplementation.Speed;
+        public float Speed { get => _moveImplementation.Speed; }
 
         public PlayerMovement(IMove moveImplementation, IRotation rotationImplementation)
         {
@@ -45,5 +45,11 @@ namespace Asteroids
                 accelerationMove.RemoveAcceleration();
             }
         }
+
+        public void AddSpeed(int speed)
+        {
+            _moveImplementation.AddSpeed(speed);
+        }
+
     }
 }

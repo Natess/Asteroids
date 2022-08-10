@@ -6,11 +6,13 @@ namespace Asteroids
     {
         private readonly Player _player;
         private readonly Camera _camera;
+        private readonly TimeRewindController _timeRewindController;
 
-        public PlayerInputController(Player player, Camera camera)
+        public PlayerInputController(Player player, Camera camera, TimeRewindController timeRewindController)
         {
             _player = player;
             _camera = camera;
+            _timeRewindController = timeRewindController;
         }
         public void FixedUpdate()
         {
@@ -44,6 +46,15 @@ namespace Asteroids
             if(Input.GetKeyDown(KeyCode.Space))
             {
                 _player.UnlockWeapon();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                _timeRewindController.StartRewind();
+            }
+            if (Input.GetKeyUp(KeyCode.Q))
+            {
+                _timeRewindController.StopRewind();
             }
         }
     }
