@@ -22,5 +22,10 @@ namespace Asteroids
                 UnityEngine.Object.Destroy(_gameObject);
             }
         }
+
+        public void AddHealth(int health)
+        {
+            Health += health;
+        }
     }
 }

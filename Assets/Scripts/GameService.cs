@@ -8,21 +8,35 @@ namespace Asteroids
 {
     internal class GameService
     {
-        private Player _player;
+        private GameObject _playerGameObject;
+        internal Player Player;
 
-        public GameService(GameObject playerGameObject, GameObject background)
+        public GameService(GameObject playerGameObject, GameObject background, UserInterface userInterface)
         {
             ServiceLocator.SetService<IViewServices>(new ViewServices());
-            _player= UnityEngine.Object.Instantiate<GameObject>(playerGameObject).GetComponent<Player>();
+            _playerGameObject = UnityEngine.Object.Instantiate<GameObject>(playerGameObject);
+            Player = _playerGameObject.GetComponent<Player>();
             UnityEngine.Object.Instantiate<GameObject>(background, new Vector3(0, 0, 2), Quaternion.identity);
+
+            SetUIControllers(userInterface);
+        }
+
+        private void SetUIControllers(UserInterface userInterface)
+        {
+            var counter = ControllerStaticFactory.GetCounterPointController();
+            var ui = ControllerStaticFactory.GetUIPointsController(userInterface);
+            ui.Subscribe(ControllerStaticFactory.MessageBroker);
+
+            //counter.PointCountChange += ui.onChangePointsCount;
+            //counter.FragsCountChange += ui.onChangeFragsCount;
         }
 
         internal List<IFixedExecute> GetFixedUpdateObjects()
         {
-            var inputController = new PlayerInputController(_player, Camera.main);
-            return new List<IFixedExecute>() { inputController};
+            var inputController = ControllerStaticFactory.GetPlayerInputController(Player, Camera.main);
+            var timeRewardController = ControllerStaticFactory.GetPlayerTimeRewardController(_playerGameObject.GetComponent<Rigidbody2D>());
+            return new List<IFixedExecute>() { inputController, timeRewardController};
         }
-
 
         internal List<IExecute> GetUpdateObjects(string simpleEnemiesSpaunerParametersPath)
         {
@@ -31,7 +45,7 @@ namespace Asteroids
             var simpleEnemiesSpaunerParameters = JsonConvert.DeserializeObject<SimpleEnemiesSpaunerParameters>(File.ReadAllText(simpleEnemiesSpaunerParametersPath));
             var enemiesSpauner = new SimpleEnemiesSpauner(new EnemyFactory(), simpleEnemiesSpaunerParameters);
             
-            var inputController = new PlayerInputController(_player, Camera.main);
+            var inputController = ControllerStaticFactory.GetPlayerInputController(Player, Camera.main);
             return new List<IExecute>() { enemiesSpauner, inputController };
         }
     }

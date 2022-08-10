@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Asteroids
 {
@@ -25,6 +20,11 @@ namespace Asteroids
             var speed = deltaTime * Speed;
             _move.Set(horizontal, vertical, 0.0f);
             _body.AddForce(_move.normalized * speed);
+        }
+
+        public void AddSpeed(int speed)
+        {
+            Speed += speed;
         }
     }
 }

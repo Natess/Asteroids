@@ -14,9 +14,9 @@ namespace Asteroids.Lesson6
         public void Parse()
         {
             var units = JArray.Parse(parseString);
-            foreach (var unit in units)
+            for (int i = 0; i < units.Count; i++)
             {
-                var processedUnit = CompositeFactory.UnitParse(unit.ToString());
+                var processedUnit = CompositeFactory.UnitParse(units[i].ToString());
                 Debug.Log(processedUnit);
             }
         }

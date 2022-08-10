@@ -11,28 +11,28 @@ namespace Asteroids
         /// <summary>
         /// Период создания НЛО
         /// </summary>
-        public float UfoTimeSpanPeriod { get; set; }
+        public float UfoTimeSpanPeriod;
         /// <summary>
         /// Период создания астероидов
         /// </summary>
-        public float AsteroidTimeSpanPeriod { get; set; }
+        public float AsteroidTimeSpanPeriod;
         /// <summary>
         /// Сторона внутреннего прямоугольника для спауна
         /// </summary>
-        public float CaptureDistanceMinX { get; set; }
+        public float CaptureDistanceMinX;
         /// <summary>
         /// Сторона внешнего прямоугольника для спауна
         /// </summary>
-        public float CaptureDistanceMaxX { get; set; }
+        public float CaptureDistanceMaxX;
         /// <summary>
         /// Сторона внутреннего прямоугольника для спауна
         /// </summary>
-        public float CaptureDistanceMinY{ get; set; }
+        public float CaptureDistanceMinY;
         /// <summary>
         /// Сторона внешнего прямоугольника для спауна
         /// </summary>
-        public float CaptureDistanceMaxY { get; set; }
-        public int AsteroidHealth { get; internal set; }
-        public int UFOHealth { get; internal set; }
+        public float CaptureDistanceMaxY;
+        public int AsteroidHealth;
+        public int UFOHealth;
     }
 }

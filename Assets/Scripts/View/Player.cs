@@ -14,50 +14,50 @@ namespace Asteroids
         [SerializeField] private Transform _barrel;
         [SerializeField] private float _force;
 
-        private PlayerMovement _playerMovement;
-        private PlayerWeaponProxy _playerWeapon;
-        private PlayerHealth _playerHealth;
+        internal PlayerMovement PlayerMovement;
+        internal PlayerWeaponProxy PlayerWeapon;
+        internal PlayerHealth PlayerHealth;
         private IViewServices _playerViewServices;
 
-        private void Start()
+        private void Awake()
         {
             _playerViewServices = ServiceLocator.Resolve<IViewServices>();//ViewServicesFactory.Instance();
 
             var move = new MovePhysics(gameObject.GetComponent<Rigidbody2D>(), _speed);
             var rotation = new RotationShip(transform);
-            _playerMovement = new PlayerMovement(move, rotation);
+            PlayerMovement = new PlayerMovement(move, rotation);
 
             var shooting = new ShootingShip(_bullet, _force, _playerViewServices);
-            _playerWeapon = new PlayerWeaponProxy(shooting, new UnlockWeapon(false));
+            PlayerWeapon = new PlayerWeaponProxy(shooting, new UnlockWeapon(false));
 
             var health = new HealthShip(gameObject, _hp);
-            _playerHealth = new PlayerHealth(health);
+            PlayerHealth = new PlayerHealth(health);
         }
 
         internal void UnlockWeapon()
         {
-            _playerWeapon.SwitchWeapon();
+            PlayerWeapon.SwitchWeapon();
         }
 
         public void Fire() =>
-            _playerWeapon.Fire(_barrel);
+            PlayerWeapon.Fire(_barrel);
 
         public void Move(float horizontal, float vertical) =>
-            _playerMovement.Move(horizontal, vertical, Time.deltaTime);
+            PlayerMovement.Move(horizontal, vertical, Time.deltaTime);
 
         internal void Rotation(Vector3 direction) =>
-            _playerMovement.Rotation(direction);
+            PlayerMovement.Rotation(direction);
 
         internal void AddAcceleration() =>
-            _playerMovement.AddAcceleration();
+            PlayerMovement.AddAcceleration();
 
         internal void RemoveAcceleration() =>
-            _playerMovement.RemoveAcceleration();
+            PlayerMovement.RemoveAcceleration();
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (!collision.gameObject.CompareTag("PlayerBullet"))
-                _playerHealth.Damage();
+                PlayerHealth.Damage();
         }
 
         private void OnDestroy()
