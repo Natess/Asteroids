@@ -13,6 +13,8 @@ namespace Asteroids
 
         private GameObject _gameObject;
 
+        public event Action OnDead;
+
         public EnemyHealth(Health hp, GameObject ganeObject)
         {
             HP = hp;
@@ -25,6 +27,7 @@ namespace Asteroids
             if (HP.Current <= 0)
             {
                 UnityEngine.Object.Destroy(_gameObject);
+                OnDead?.Invoke();
             }
         }
     }

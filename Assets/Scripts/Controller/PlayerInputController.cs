@@ -16,7 +16,7 @@ namespace Asteroids
         }
         public void FixedUpdate()
         {
-            _player.Move(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            //_player.Move(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
             var direction = Input.mousePosition - _camera.WorldToScreenPoint(_player.transform.position);
             _player.Rotation(direction);

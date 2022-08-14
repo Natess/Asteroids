@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Asteroids
@@ -9,32 +10,27 @@ namespace Asteroids
       
         protected IEnemyMovement _movement;
         protected IEnemyHealth _health;
-        protected CounterPointController _counterUIController;
+        protected ICounterPointController _counterController;
+        protected IFieldOfViewVisitor visitor;
 
-        // Фабрика
-        public static IEnemyFactory Factory;
-
-        // Фабричный метод (для примера)
-        public static Asteroid CreateAsteroidEnemy(Health hp)
-        {
-            var enemy = Instantiate(Resources.Load<Asteroid>("Enemy/Asteroid1"));
-            enemy._health = new EnemyHealth(hp, enemy.gameObject);
-
-            return enemy;
-        }
+        public event Action<Type> OnEnemyDead;
 
         public void DependencyInjectHealth(Health hp)
         {
             _health = new EnemyHealth(hp, gameObject);
+            _health.OnDead += OnDead;
         }
 
-        protected virtual void CheckDead()
+        private void OnDead()
         {
-            if (_health.HP.Current <= 0)
-            {
-                _counterUIController.CountDeadEnemy(this.GetType());
-            }
+            OnEnemyDead?.Invoke(this.GetType());
         }
 
+        private void OnDestroy()
+        {
+            _health.OnDead -= OnDead;
+
+        }
+        protected abstract void OnBecameVisible();
     }
 }

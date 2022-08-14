@@ -25,10 +25,10 @@ namespace Asteroids
         {
             var counter = ControllerStaticFactory.GetCounterPointController();
             var ui = ControllerStaticFactory.GetUIPointsController(userInterface);
-            ui.Subscribe(ControllerStaticFactory.MessageBroker);
+            //ui.Subscribe(ControllerStaticFactory.MessageBroker);
 
-            //counter.PointCountChange += ui.onChangePointsCount;
-            //counter.FragsCountChange += ui.onChangeFragsCount;
+            counter.PointCountChange += ui.onChangePointsCount;
+            counter.FragsCountChange += ui.onChangeFragsCount;
         }
 
         internal List<IFixedExecute> GetFixedUpdateObjects()

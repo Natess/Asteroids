@@ -3,7 +3,7 @@
 namespace Asteroids
 {
     [System.Serializable]
-    internal class UFO: Enemy
+    public class UFO: Enemy
     {
         [SerializeField] private GameObject _bullet;
         [SerializeField] private Sprite _bulletSprite;
@@ -18,20 +18,26 @@ namespace Asteroids
         {
             var move = new MovePhysics(gameObject.GetComponent<Rigidbody2D>(), _ufoSpeed);
             _movement = new EnemyMovementToCentreWithOffset(move, transform);
-            _counterUIController = ControllerStaticFactory.GetCounterPointController();
+            _counterController = ControllerStaticFactory.GetCounterPointController();
+            OnEnemyDead += _counterController.CountDeadEnemy;
+
+            visitor = new FieldOfViewVisitor();
 
             _movement.StartMove();
             Object.Destroy(gameObject, _lifeTime);
         }
 
-        internal void DependencyInjectBehaviour(IEnemyMovement movement, IShooting shooting)
+        internal void DependencyInjectBehaviour(IEnemyMovement movement, IShooting shooting, ICounterPointController counterController)
         {
             _movement = movement;
             _movement.StartMove();
 
             _shootinController = new UfoShootingController(shooting, _barrel, _fireTimerPeriod);
-            if(_counterUIController == null)
-                _counterUIController = ControllerStaticFactory.GetCounterPointController();
+            _counterController = counterController;
+            if (_counterController != null)
+            {
+                OnEnemyDead += _counterController.CountDeadEnemy;
+            }
         }
 
         //internal void DependencyInjectViewServices(IViewServices viewServices)
@@ -56,8 +62,12 @@ namespace Asteroids
             if (collision.gameObject.CompareTag("PlayerBullet"))
             {
                 _health.Damage();
-                CheckDead();
             }
+        }
+
+        protected override void OnBecameVisible()
+        {
+            visitor?.Visit(this);
         }
     }
 }

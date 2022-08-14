@@ -19,11 +19,16 @@ namespace Asteroids
         internal PlayerHealth PlayerHealth;
         private IViewServices _playerViewServices;
 
+        public StateMachine movementSM;
+        public StandingState standing;
+        public MotionState motion;
+
         private void Awake()
         {
             _playerViewServices = ServiceLocator.Resolve<IViewServices>();//ViewServicesFactory.Instance();
 
-            var move = new MovePhysics(gameObject.GetComponent<Rigidbody2D>(), _speed);
+            //var move = new MovePhysics(gameObject.GetComponent<Rigidbody2D>(), _speed);
+            var move = new MoveTransform(gameObject.transform, _speed);
             var rotation = new RotationShip(transform);
             PlayerMovement = new PlayerMovement(move, rotation);
 
@@ -33,6 +38,29 @@ namespace Asteroids
             var health = new HealthShip(gameObject, _hp);
             PlayerHealth = new PlayerHealth(health);
         }
+
+        private void Start()
+        {
+            movementSM = new StateMachine();
+
+            standing = new StandingState(this, movementSM);
+            motion = new MotionState(this, movementSM);
+
+            movementSM.Initialize(standing);
+        }
+
+        private void Update()
+        {
+            movementSM.CurrentState.HandleInput();
+
+            movementSM.CurrentState.LogicUpdate();
+        }
+
+        private void FixedUpdate()
+        {
+            movementSM.CurrentState.PhysicsUpdate();
+        }
+
 
         internal void UnlockWeapon()
         {
