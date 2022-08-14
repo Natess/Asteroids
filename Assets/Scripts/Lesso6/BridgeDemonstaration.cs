@@ -14,8 +14,9 @@ namespace Asteroids.Lesson6
 
             var movement = new EnemyMovementToCentreWithOffset(new MovePhysics(ufo.GetComponent<Rigidbody2D>(), 5f), transform);
             var shooting = new UFOShootingShip(5, _bulletSprite, new GameObjectBuilder());
+            var counterUIController = ControllerStaticFactory.GetCounterPointController();
 
-            ufo.DependencyInjectBehaviour(movement, shooting);
+            ufo.DependencyInjectBehaviour(movement, shooting, counterUIController);
         }
     }
 }

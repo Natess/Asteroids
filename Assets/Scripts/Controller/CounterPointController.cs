@@ -2,7 +2,7 @@
 
 namespace Asteroids
 {
-    public class CounterPointController
+    public class CounterPointController : ICounterPointController
     {
         private int fragsCount;
         private int pointCount;
@@ -13,14 +13,14 @@ namespace Asteroids
             this.messageBroker = messageBroker;
         }
 
-        //public event Action<int> FragsCountChange;
-        //public event Action<int> PointCountChange;
+        public event Action<int> FragsCountChange;
+        public event Action<int> PointCountChange;
 
-        internal void CountDeadEnemy(Type type)
+        public void CountDeadEnemy(Type type)
         {
             ++fragsCount;
-            //FragsCountChange?.Invoke(fragsCount);
-            messageBroker.Publish("FragsCountChange", this.GetType().Name, fragsCount);
+            FragsCountChange?.Invoke(fragsCount);
+            //messageBroker.Publish("FragsCountChange", this.GetType().Name, fragsCount);
 
             if (type.Equals(typeof(UFO)))
             {
@@ -30,8 +30,8 @@ namespace Asteroids
             {
                 pointCount += 250;
             }
-            //PointCountChange?.Invoke(pointCount);
-            messageBroker.Publish("PointCountChange", this.GetType().Name, pointCount);
+            PointCountChange?.Invoke(pointCount);
+            //messageBroker.Publish("PointCountChange", this.GetType().Name, pointCount);
 
         }
     }

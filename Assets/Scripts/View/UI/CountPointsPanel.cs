@@ -37,10 +37,10 @@ namespace Asteroids
         }
         private string ToGameFormat(long number)
         {
-            if (number > 1000000)
+            if (number >= 1000000)
                 return $"{number / 1000000}M";
 
-            if (number > 1000)
+            if (number >= 1000)
                 return $"{number / 1000}K";
 
             return number.ToString();

@@ -12,7 +12,9 @@ namespace Asteroids
         {
             var move = new MovePhysics(gameObject.GetComponent<Rigidbody2D>(), _asteroidSpeed);
             _movement = new EnemyMovementToCentreWithOffset(move, transform);
-            _counterUIController = ControllerStaticFactory.GetCounterPointController();
+            _counterController = ControllerStaticFactory.GetCounterPointController();
+            OnEnemyDead += _counterController.CountDeadEnemy;
+            visitor = new FieldOfViewVisitor();
 
             _movement.StartMove();
             Object.Destroy(gameObject, _lifeTime);
@@ -23,8 +25,11 @@ namespace Asteroids
             if (collision.gameObject.CompareTag("PlayerBullet"))
             {
                 _health.Damage();
-                CheckDead();
             }
+        }
+        protected override void OnBecameVisible()
+        {
+            visitor?.Visit(this);
         }
     }
 }
